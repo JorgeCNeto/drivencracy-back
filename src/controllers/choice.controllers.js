@@ -3,7 +3,7 @@ import { db } from "../database/database.connection.js"
 
 export async function choice(req, res) {
     const { title } = req.body
-    const { id } =req.params
+    const { id } = res.locals
 
     try {
         const verificarChoice = await db.collection("choice").findOne({title})
@@ -11,7 +11,7 @@ export async function choice(req, res) {
         if(verificarChoice){
             return res.status(409).send("Título já utilizado")
         }
-        await db.collection("choice").insertOne({ title, pollId: ObjectId(id) })
+        await db.collection("choice").insertOne({ title, pollId: id })
         return res.sendStatus(201)
     } catch {
         return res.status(500).send(err.message)

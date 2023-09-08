@@ -26,3 +26,27 @@ export async function pollGet(req, res) {
         return res.status(500).send(err.message)
     }
 }
+
+export async function pollGetChoice(req, res) {
+    const { id } = req.params
+
+    try{
+        const polls = await db.collection("choice").find({ pollId: id }).toArray()
+        if (!polls){
+            return res.sendStatus(404)
+        }
+
+        return res.send(polls)
+    } catch (err){
+        return res.status(500).send(err.message)
+    }
+}
+
+export async function pollGetResult(req, res) {
+    try{
+        const polls = await db.collection("poll").find({}).toArray()
+        return res.send(polls)
+    } catch (err){
+        return res.status(500).send(err.message)
+    }
+}
