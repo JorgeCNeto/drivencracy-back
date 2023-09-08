@@ -52,7 +52,7 @@ export async function pollGetResult(req, res) {
         const votes = poll.result.length
 
         const enquete = {
-            _id: id
+            _id: id,
             title: polls.title,
             expireAt: polls.expireAt,
             result:{
