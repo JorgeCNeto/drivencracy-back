@@ -10,9 +10,9 @@ export async function pollPost(req, res) {
    
     
     try{
-        await db.collection("pool").insertOne({ title, expireAt })
+        await db.collection("poll").insertOne({ title, expireAt })
         return res.sendStatus(201)
-        
+
     } catch (err){
         return res.status(500).send(err.message)
     }
@@ -20,7 +20,8 @@ export async function pollPost(req, res) {
 
 export async function pollGet(req, res) {
     try{
-
+        const polls = await db.collection("poll").find({}).toArray()
+        return res.send(polls)
     } catch (err){
         return res.status(500).send(err.message)
     }
