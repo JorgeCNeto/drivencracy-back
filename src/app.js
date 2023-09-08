@@ -1,4 +1,4 @@
-import { express } from "express";
+import express from "express";
 import cors from "cors"
 import pollRouter from "./routes/poll.routes.js";
 import choiceRouter from "./routes/choice.routes.js";
