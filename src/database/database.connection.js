@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-const MongoClient = new MongoClient(process.env.DATABASE_URL)
+const mongoClient = new MongoClient(process.env.DATABASE_URL)
 try {
     await MongoClient.connect()
     console.log("MongoDB conectado!")
