@@ -5,7 +5,7 @@ export async function pollPost(req, res) {
     const { title, expireAt } = req.body
 
     if(!expireAt){
-        expireAt = dayjs().format("YYYY-MM-DD HH:mm").subtract(1, "month")
+        expireAt = dayjs().format("YYYY-MM-DD HH:mm").add(1, "month")
     }
    
     
