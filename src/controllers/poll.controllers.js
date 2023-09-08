@@ -47,7 +47,7 @@ export async function pollGetResult(req, res) {
     const { id } = req.params
 
     try{
-        const polls = await db.collection("poll").find({_id: nem ObjectId(id)}).toArray()
+        const polls = await db.collection("poll").find({_id: new ObjectId(id)}).toArray()
         const poll = await db.collection("choice").find({pollId: id}).toArray()
         const votes = poll.result.length
 
