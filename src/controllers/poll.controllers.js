@@ -64,4 +64,4 @@ export async function pollGetResult(req, res) {
     } catch (err){
         return res.status(500).send(err.message)
     }
-}
+} 
