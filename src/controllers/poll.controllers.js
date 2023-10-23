@@ -1,12 +1,12 @@
 import { ObjectId } from "mongodb"
 import { db } from "../database/database.connection.js"
-import { pollSchema } from "../schemas/poll.schemas.js"
+import dayjs from "dayjs"
 
 export async function pollPost(req, res) {
     const { title, expireAt } = req.body
 
     if(!expireAt){
-        expireAt = dayjs().format("YYYY-MM-DD HH:mm").add(1, "month")
+        expireAt = dayjs().add(1, "month").format("YYYY-MM-DD HH:mm")
     }
    
     
@@ -32,7 +32,7 @@ export async function pollGetChoice(req, res) {
     const { id } = req.params
 
     try{
-        const polls = await db.collection("choice").find({ pollId: id }).toArray()
+        const polls = await db.collection("choice").find({ pollId: new ObjectId(id) }).toArray()
         if (!polls){
             return res.sendStatus(404)
         }
