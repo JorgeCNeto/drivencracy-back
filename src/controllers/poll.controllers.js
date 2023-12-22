@@ -31,16 +31,11 @@ export async function pollGet(req, res) {
 }
 
 export async function pollGetChoice(req, res) {
-    const { id } = req.params
+    const params = req.params
 
     try{
-        const polls = await db.collection("choice").find({ pollId: ObjectId(id) }).toArray()
-        if (!polls){
-            return res.sendStatus(404)
-        }
-        const verificarChoices = await db.collection("choice").find({ poolId: id }).toArray();
-        res.status(200).send(verificarChoices);
-
+        const polls = await db.collection("choice").find({ pollId: params.id }).toArray()
+         
         return res.send(polls)
     } catch (err){
         return res.status(500).send(err.message)
@@ -48,26 +43,36 @@ export async function pollGetChoice(req, res) {
 }
 
 export async function pollGetResult(req, res) {
-    const { id } = req.params
+    const {id} = req.params
+    const poll = res.locals.poll
 
     try{
-        const polls = await db.collection("poll").find({_id: ObjectId(id)}).toArray()
-        if (!polls){
-            return res.sendStatus(404)
+        const polls = await db.collection("poll").find({_id: id}).toArray()
+                        
+        
+        const votes = polls.map(v => v._id)
+
+        let vote = "";
+        let count = 0;
+        for (let i = 0; i < votes.length; i++) {
+
+            let countArray = await db.collection('votes').find({ choiceId: votes[i].toString() }).toArray()
+            let votesTotal = countArray.length
+
+            if (count < votesTotal) {
+                count = votesTotal;
+                vote = votes[i]
+            }
         }
-        const poll = await db.collection("choice").find({pollId: id}).toArray()
-        if(!poll){
-            return res.sendStatus(404)
-        }
-        const votes = poll.result.length
+ 
 
         const enquete = {
-            _id: id,
-            title: polls.title,
-            expireAt: polls.expireAt,
+            _id: poll._id,
+            title: poll.title,
+            expireAt: poll.expireAt,
             result:{
-                title: poll.title,
-                votes: votes
+                title: vote,
+                votes: count
             }
         }
         return res.send(enquete)

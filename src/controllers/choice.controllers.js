@@ -22,19 +22,19 @@ export async function vote(req, res) {
     const { id } = req.params
 
     try {
-        const verificarChoice = await db.collection("choice").findOne({ _id: new ObjectId(id) })
+        // const verificarChoice = await db.collection("choice").findOne({ _id: new ObjectId(id) })
 
-        if(verificarChoice){
-            return res.sendStatus(404)
-        }
+        // if(verificarChoice){
+        //     return res.sendStatus(404)
+        // }
 
-        const verificarPoll = await db.collection("poll").findOne({ _id: new ObjectId(verificarChoice.id) })
-        if(verificarPoll){
-            return res.sendStatus(404)
-        }
+        // const verificarPoll = await db.collection("poll").findOne({ _id: new ObjectId(verificarChoice.id) })
+        // if(verificarPoll){
+        //     return res.sendStatus(404)
+        // }
 
-        const vote = { date: dayjs().format("YYYY-MM-DD HH:mm"), id: new ObjectId(id)}
-        await db.collection("choice").insertOne({vote})
+        const vote = { date: dayjs().format("YYYY-MM-DD HH:mm"), id}
+        await db.collection("votes").insertOne({vote})
         return res.sendStatus(201)
     } catch {
         return res.status(500).send(err.message)
