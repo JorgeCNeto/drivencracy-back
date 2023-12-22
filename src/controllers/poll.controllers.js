@@ -3,9 +3,9 @@ import { db } from "../database/database.connection.js"
 import dayjs from "dayjs"
 
 export async function pollPost(req, res) {
-    const { title } = req.body
+    const { title, expireAt } = req.body
 
-    if(!expireAt){
+    if(!expireAt || expireAt === ""){
         expireAt = dayjs().add(1, "month").format("YYYY-MM-DD HH:mm")
     }
    
@@ -36,6 +36,8 @@ export async function pollGetChoice(req, res) {
         if (!polls){
             return res.sendStatus(404)
         }
+        const verificarChoices = await db.collection("choice").find({ poolId: id }).toArray();
+        res.status(200).send(verificarChoices);
 
         return res.send(polls)
     } catch (err){

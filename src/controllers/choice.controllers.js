@@ -40,19 +40,3 @@ export async function vote(req, res) {
         return res.status(500).send(err.message)
     }
 }
-
-export async function getChoice(req, res) {
-    const { id } = req.params;
-  
-    try {
-        const verificarPoll = await db.collection("poll").findOne({ _id: new ObjectId(verificarChoice.id) })
-        if(verificarPoll){
-            return res.sendStatus(404)
-        }
-      const verificarChoices = await db.collection("choice").find({ poolId: id }).toArray();
-      res.status(200).send(verificarChoices);
-    } catch (error) {
-      console.log(error);
-      res.status(500).send(`${error}`);
-    }
-  }
