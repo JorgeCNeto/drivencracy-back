@@ -3,7 +3,7 @@ import { db } from "../database/database.connection.js"
 import dayjs from "dayjs"
 
 export async function pollPost(req, res) {
-    const { title, expireAt } = req.body
+    const { title } = req.body
 
     if(!expireAt){
         expireAt = dayjs().add(1, "month").format("YYYY-MM-DD HH:mm")
