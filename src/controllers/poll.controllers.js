@@ -3,15 +3,15 @@ import { db } from "../database/database.connection.js"
 import dayjs from "dayjs"
 
 export async function pollPost(req, res) {
-    const { title, expireAt } = req.body
+    const body = req.body
 
-    if(!expireAt || expireAt === ""){
-        expireAt = dayjs().add(1, "month").format("YYYY-MM-DD HH:mm")
+    if(!body.expireAt || body.expireAt === ""){
+        date = dayjs().add(1, "month").format("YYYY-MM-DD HH:mm")
     }
    
     
     try{
-        await db.collection("poll").insertOne({ title, expireAt })
+        await db.collection("poll").insertOne({ title: body.title, expireAt: date })
         return res.sendStatus(201)
 
     } catch (err){
