@@ -5,6 +5,8 @@ import dayjs from "dayjs"
 export async function pollPost(req, res) {
     const body = req.body
 
+    let date = body.expireAt
+    
     if(!body.expireAt || body.expireAt === ""){
         date = dayjs().add(1, "month").format("YYYY-MM-DD HH:mm")
     }
